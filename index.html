@@ -30,13 +30,14 @@
 <nav class="site-nav">
   <div class="wrap">
     <a href="/" class="brand">Leafix GHY</a>
-    <ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">☰</button>
+    <ul id="navMenu">
       <li><a class="nav-link" href="/couples.html">Couples</a></li>
       <li><a class="nav-link" href="/creators-workation.html">Creators &amp; Workation</a></li>
       <li><a class="nav-link" href="/safety-faq.html">Safety &amp; FAQ</a></li>
       <li><a class="nav-link" href="/medical-stay.html">Medical Stay</a></li>
       <li class="has-dropdown">
-        <a class="nav-link" href="#">Explore ▾</a>
+        <a class="nav-link dropdown-trigger" href="#">Explore ▾</a>
         <div class="dropdown-menu">
           <a href="/kalapahar-guide.html">Kalapahar Guide</a>
           <a href="/guwahati-itinerary.html">Guwahati Itinerary</a>
@@ -45,7 +46,7 @@
           <a href="/the-leafix-world.html">The Leafix World</a>
         </div>
       </li>
-      <li><a class="nav-link" href="#book" style="color:var(--amber)">Book</a></li>
+      <li><a class="nav-link nav-book-btn" href="#book">Book</a></li>
     </ul>
   </div>
 </nav>
@@ -57,9 +58,23 @@
     <h1 class="neon-wordmark">Leafix GHY</h1>
     <p class="hero-tagline">The one room where your phone loses.</p>
     <p class="hero-sub">A private 1BHK Airbnb in Kalapahar, Guwahati — quiet, residential, and a short drive from the railway station. Built for couples, solo travelers, creators, and small kitty-party gatherings. Self check-in, verified guests, quiet gatherings only.</p>
-    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="waitlist-form">
-      <input type="email" name="email" required placeholder="you@email.com">
-      <button type="submit" class="btn btn-primary">Join the waitlist</button>
+    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="booking-form">
+      <div class="booking-row">
+        <label>Check-in<input type="date" name="checkin" required></label>
+        <label>Check-out<input type="date" name="checkout" required></label>
+        <label>Guests
+          <select name="guests" required>
+            <option value="">Select</option>
+            <option value="1">1 guest</option>
+            <option value="2">2 guests</option>
+            <option value="3-4 (kitty party)">3-4 guests (kitty party)</option>
+          </select>
+        </label>
+      </div>
+      <div class="booking-row">
+        <input type="email" name="email" required placeholder="you@email.com">
+        <button type="submit" class="btn btn-primary">Check availability</button>
+      </div>
     </form>
   </div>
 </header>
@@ -120,9 +135,23 @@
   <div class="cta-media-overlay">
     <h2>Everyone else sells a room.</h2>
     <p>We sell a world you'll have to be there for.</p>
-    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="waitlist-form" style="justify-content:center; margin: 0 auto;">
-      <input type="email" name="email" required placeholder="you@email.com">
-      <button type="submit" class="btn btn-primary">Join the waitlist</button>
+    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="booking-form" style="margin: 0 auto;">
+      <div class="booking-row" style="justify-content:center;">
+        <label>Check-in<input type="date" name="checkin" required></label>
+        <label>Check-out<input type="date" name="checkout" required></label>
+        <label>Guests
+          <select name="guests" required>
+            <option value="">Select</option>
+            <option value="1">1 guest</option>
+            <option value="2">2 guests</option>
+            <option value="3-4 (kitty party)">3-4 guests (kitty party)</option>
+          </select>
+        </label>
+      </div>
+      <div class="booking-row" style="justify-content:center;">
+        <input type="email" name="email" required placeholder="you@email.com">
+        <button type="submit" class="btn btn-primary">Check availability</button>
+      </div>
     </form>
   </div>
 </section>
@@ -136,6 +165,26 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+  const toggle = document.getElementById('navToggle');
+  const menu = document.getElementById('navMenu');
+  toggle.addEventListener('click', function () {
+    const isOpen = menu.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+
+  const dropdownTrigger = document.querySelector('.dropdown-trigger');
+  if (dropdownTrigger) {
+    dropdownTrigger.addEventListener('click', function (e) {
+      e.preventDefault();
+      this.parentElement.classList.toggle('dropdown-open');
+    });
+    document.addEventListener('click', function (e) {
+      if (!dropdownTrigger.parentElement.contains(e.target)) {
+        dropdownTrigger.parentElement.classList.remove('dropdown-open');
+      }
+    });
+  }
+
   const items = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
