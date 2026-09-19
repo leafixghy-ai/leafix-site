@@ -26,7 +26,7 @@ body {
 img { max-width: 100%; display: block; }
 a { color: inherit; }
 .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
- 
+
 /* ---- Nav ---- */
 .site-nav {
   position: sticky; top: 0; z-index: 50;
@@ -38,7 +38,7 @@ a { color: inherit; }
 .site-nav ul { list-style: none; display: flex; align-items: center; gap: 22px; margin: 0; padding: 0; font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; }
 .site-nav a.nav-link { text-decoration: none; color: rgba(250,246,236,0.75); }
 .site-nav a.nav-link:hover { color: var(--amber); }
- 
+
 /* Book button in nav */
 .nav-book-btn {
   background: var(--amber) !important; color: var(--dark-block) !important;
@@ -46,13 +46,13 @@ a { color: inherit; }
   font-size: 0.78rem !important; letter-spacing: 0.05em;
 }
 .nav-book-btn:hover { background: #d98d3a !important; color: var(--dark-block) !important; }
- 
+
 /* Hamburger toggle */
 .nav-toggle {
   display: none; background: none; border: 1px solid rgba(250,246,236,0.3); color: var(--bg);
   font-size: 1.2rem; padding: 6px 12px; border-radius: var(--radius); cursor: pointer;
 }
- 
+
 /* Desktop dropdown — click-only */
 .has-dropdown { position: relative; }
 .dropdown-menu {
@@ -63,7 +63,7 @@ a { color: inherit; }
 .has-dropdown.dropdown-open .dropdown-menu { display: block; }
 .dropdown-menu a { display: block; padding: 10px 16px; color: var(--text); text-decoration: none; font-size: 0.75rem; }
 .dropdown-menu a:hover { background: var(--surface); color: var(--amber); }
- 
+
 /* Mobile nav */
 @media (max-width: 900px) {
   .nav-toggle { display: block; }
@@ -87,7 +87,7 @@ a { color: inherit; }
   #navMenu .dropdown-menu a:hover { color: var(--amber); background: rgba(0,0,0,0.15); }
   .nav-book-btn { display: inline-block !important; margin: 12px 24px !important; width: calc(100% - 48px) !important; text-align: center; }
 }
- 
+
 /* ---- Hero ---- */
 .media-hero {
   position: relative; min-height: 78vh; display: flex; align-items: flex-end; overflow: hidden;
@@ -101,7 +101,7 @@ a { color: inherit; }
 .neon-wordmark { font-family: var(--font-display); font-size: clamp(2.6rem, 6vw, 4.5rem); font-weight: 600; margin: 0 0 8px; color: var(--text); line-height: 0.95; }
 .hero-tagline { font-family: var(--font-display); font-style: italic; font-size: clamp(1.1rem, 2vw, 1.4rem); margin: 0 0 12px; max-width: 480px; color: var(--text); }
 .hero-sub { font-family: var(--font-body); font-size: 0.95rem; color: var(--text-dim); max-width: 480px; margin: 0 0 24px; line-height: 1.55; }
- 
+
 .btn {
   display: inline-block; padding: 16px 36px; border-radius: 999px;
   font-family: var(--font-mono); font-size: 0.78rem; text-transform: uppercase;
@@ -117,7 +117,7 @@ a { color: inherit; }
   transform: translateY(-3px);
   box-shadow: 0 8px 26px rgba(201,125,46,0.5);
 }
- 
+
 /* ---- Monstera leaf logo ---- */
 .brand { display: flex; align-items: center; gap: 10px; }
 .brand-leaf {
@@ -138,7 +138,7 @@ a { color: inherit; }
   stroke: var(--amber); stroke-width: 0.8; stroke-linecap: round;
   opacity: 0; animation: fade-leaf 0.4s ease 2.0s forwards;
 }
- 
+
 /* Eyes — fill with warm cream so they look like actual eye whites */
 .leaf-eye {
   stroke: var(--amber); stroke-width: 1.8; fill: var(--bg);
@@ -163,13 +163,13 @@ a { color: inherit; }
   stroke-dasharray: 40; stroke-dashoffset: 40;
   animation: draw-leaf 0.25s ease 3.0s forwards;
 }
- 
+
 @keyframes fade-leaf { to { opacity: 1; } }
 @keyframes draw-leaf {
   from { stroke-dashoffset: inherit; opacity: 0.3; }
   to { stroke-dashoffset: 0; opacity: 1; }
 }
- 
+
 /* ---- HOW section decorative monstera ---- */
 .how-leaf-decor {
   position: absolute; right: -8%; top: 50%;
@@ -187,7 +187,7 @@ a { color: inherit; }
   0%, 100% { transform: translateY(-50%) rotate(15deg); }
   50% { transform: translateY(calc(-50% - 18px)) rotate(11deg); }
 }
- 
+
 /* ---- Booking form ---- */
 .booking-form { max-width: 560px; }
 .booking-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
@@ -201,7 +201,7 @@ a { color: inherit; }
 }
 .booking-row input[type="email"] { flex: 1; min-width: 200px; }
 @media (max-width: 500px) { .booking-row label { min-width: 100%; } }
- 
+
 /* ---- Funnel sections ---- */
 .funnel-section { padding: 80px 0; }
 .funnel-section.dark { background: var(--dark-block); color: var(--bg); }
@@ -212,7 +212,7 @@ a { color: inherit; }
 .funnel-section.dark .funnel-body { color: rgba(250,246,236,0.8); }
 .funnel-body strong { color: var(--text); font-weight: 600; }
 .funnel-section.dark .funnel-body strong { color: var(--bg); }
- 
+
 /* ---- Room tiles ---- */
 .tiles-section { padding: 0 0 80px; }
 .tiles-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
@@ -225,11 +225,11 @@ a { color: inherit; }
 .media-tile-caption { padding: 14px; width: 100%; }
 .tile-eyebrow { font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); display: block; margin-bottom: 4px; }
 .media-tile h3 { font-family: var(--font-display); font-size: 0.95rem; margin: 0; color: var(--text); }
- 
+
 /* ---- Trust line ---- */
 .trust-line { padding: 26px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .trust-line p { font-family: var(--font-mono); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); text-align: center; margin: 0; }
- 
+
 /* ---- CTA ---- */
 .cta-media {
   position: relative; min-height: 55vh; display: flex; align-items: center; justify-content: center; text-align: center;
@@ -238,23 +238,23 @@ a { color: inherit; }
 .cta-media-overlay { padding: 40px; }
 .cta-media-overlay h2 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0 0 10px; color: var(--text); }
 .cta-media-overlay p { color: var(--text-dim); margin: 0 0 26px; font-size: 1.02rem; }
- 
+
 /* ---- Footer ---- */
 footer { border-top: 1px solid var(--border); padding: 40px 0; font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-dim); }
 footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
 footer a { text-decoration: none; color: var(--text-dim); }
 footer a:hover { color: var(--amber); }
- 
+
 /* ---- Scroll reveal ---- */
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 @media (prefers-reduced-motion: reduce) { .reveal, .reveal.visible { opacity: 1; transform: none; transition: none; } }
- 
+
 a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
- 
+
 /* ---- Availability calendar picker ---- */
 .avail-picker { max-width: 660px; }
- 
+
 .avail-pills {
   display: flex; gap: 0; background: var(--surface-2);
   border: 1.5px solid var(--border); border-radius: 14px;
@@ -278,7 +278,7 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
   font-weight: 600; color: var(--text);
 }
 .avail-pill-val.empty { color: var(--text-dim); font-weight: 400; }
- 
+
 .avail-cal-wrap {
   background: var(--surface-2); border: 1.5px solid var(--border);
   border-radius: 14px; padding: 0 24px;
@@ -304,7 +304,7 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
     padding-left: 0; padding-top: 20px; margin-top: 20px;
   }
 }
- 
+
 .cal-month-head {
   font-family: var(--font-display); font-size: 0.9rem;
   font-weight: 600; text-align: center;
@@ -350,14 +350,14 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
   opacity: 0.55;
   position: relative;
 }
- 
+
 .avail-nights {
   font-family: var(--font-mono); font-size: 0.7rem;
   text-transform: uppercase; letter-spacing: 0.1em;
   color: var(--amber); text-align: center;
   padding: 12px 0 4px; display: none;
 }
- 
+
 .avail-bottom-form { display: none; }
 .avail-bottom {
   display: flex; gap: 10px; flex-wrap: wrap; align-items: stretch;
@@ -378,3 +378,28 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 }
 .avail-note a { color: var(--text-dim); text-decoration: underline; cursor: pointer; }
 .avail-note a:hover { color: var(--amber); }
+
+/* Move submit button outside avail-bottom flex row */
+.avail-btn { display: block; width: 100%; margin-top: 14px; }
+
+/* Payment QR section */
+.avail-qr {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 20px 0 8px; border-top: 1px solid var(--border); margin-top: 18px;
+}
+.avail-qr-label {
+  font-family: var(--font-mono); font-size: 0.68rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text); margin-bottom: 14px; text-align: center;
+}
+.avail-qr-label strong { color: var(--amber); font-weight: 700; }
+.avail-qr-img {
+  width: 180px; height: 180px; object-fit: contain;
+  border-radius: 10px; border: 1.5px solid var(--border);
+  background: #fff; padding: 8px; display: block;
+}
+.avail-qr-sub {
+  font-family: var(--font-mono); font-size: 0.6rem;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--text-dim); margin-top: 10px; text-align: center; line-height: 1.6;
+}
