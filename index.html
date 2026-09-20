@@ -415,7 +415,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updatePills() {
       pillInVal.textContent  = checkIn  ? fmtDate(checkIn)  : 'Add date';
-      pillOutVal.textContent = checkOut ? fmtDate(checkOut) : 'Add date';
+      pillOutVal.textContent = checkOut ? fmtDate(checkOut) : (step==='out' && isOpen ? '↓ tap a date' : 'Add date');
       pillInVal.className    = 'avail-pill-val' + (checkIn  ? '' : ' empty');
       pillOutVal.className   = 'avail-pill-val' + (checkOut ? '' : ' empty');
       pillIn.className  = 'avail-pill' + (step==='in'  ? ' active' : '');
@@ -438,6 +438,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Click a calendar date
     calsEl.addEventListener('click', function(e){
+      e.stopPropagation(); // prevent outside-click handler from closing before state updates
       var cell = e.target.closest('.cal-avail');
       if(!cell) return;
       var d = new Date(cell.dataset.date+'T00:00:00');
