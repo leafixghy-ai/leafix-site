@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Your Stay – Leafix GHY</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+
+/* ===== PAGE BASE ===== */
+.book-page {
+  background: var(--bg);
+  min-height: 100vh;
+  padding: 56px 0 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Large leaf watermark behind the form */
+.book-leaf-bg {
+  position: absolute;
+  right: -4%;
+  top: 6%;
+  width: min(58vw, 500px);
+  opacity: 0.055;
+  pointer-events: none;
+  color: var(--dark-block);
+  transform: rotate(10deg);
+}
+.book-leaf-bg path,
+.book-leaf-bg line {
+  stroke: currentColor;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.5;
+}
+
+.book-wrap {
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== BACK LINK ===== */
+.book-back {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 38px;
+  transition: color 0.15s;
+}
+.book-back:hover { color: var(--amber); }
+
+/* ===== PAGE HEADER ===== */
+.book-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--amber);
+  display: inline-block;
+  border-bottom: 1px solid var(--amber);
+  padding-bottom: 4px;
+  margin-bottom: 16px;
+}
+.book-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 5.5vw, 2.7rem);
+  font-weight: 600;
+  font-style: italic;
+  color: var(--text);
+  margin: 0 0 8px;
+  line-height: 1.06;
+}
+.book-sub {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  margin: 0 0 36px;
+  line-height: 1.55;
+}
+
+/* ===== DATE CONFIRMATION CARD ===== */
+.book-dates-card {
+  background: var(--dark-block);
+  border-radius: 18px;
+  padding: 28px 28px 24px;
+  margin-bottom: 38px;
+  position: relative;
+  overflow: hidden;
+}
+/* amber top accent */
+.book-dates-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--amber) 0%, #e8a850 100%);
+  border-radius: 18px 18px 0 0;
+}
+/* faint leaf motif inside card */
+.book-dates-card::after {
+  content: '🌿';
+  position: absolute;
+  bottom: -10px; right: 14px;
+  font-size: 4.2rem;
+  opacity: 0.07;
+  transform: rotate(18deg);
+  pointer-events: none;
+  line-height: 1;
+}
+
+.book-dates-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.book-date-col { flex: 1; min-width: 120px; }
+.book-date-col + .book-date-col {
+  border-left: 1px solid rgba(250,246,236,0.1);
+  padding-left: 20px;
+}
+.book-date-label {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(250,246,236,0.42);
+  margin-bottom: 7px;
+}
+.book-date-val {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--bg);
+  line-height: 1.15;
+}
+.book-nights-badge {
+  background: var(--amber);
+  color: var(--dark-block);
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-weight: 700;
+  padding: 7px 15px;
+  border-radius: 999px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.book-no-dates {
+  font-family: var(--font-mono);
+  font-size: 0.73rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 18px 0;
+  margin-bottom: 28px;
+}
+.book-no-dates a { color: var(--amber); text-decoration: underline; }
+
+/* ===== SECTION DIVIDERS ===== */
+.book-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 34px 0 22px;
+}
+.book-divider-num {
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.08em;
+  color: var(--amber);
+  flex-shrink: 0;
+}
+.book-divider-line { flex: 1; height: 1px; background: var(--border); }
+.book-divider-label {
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+/* ===== FORM FIELDS ===== */
+.book-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.book-field { padding-bottom: 14px; }
+
+.book-field-label {
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  margin-bottom: 7px;
+  display: block;
+  transition: color 0.15s;
+}
+.book-field:focus-within .book-field-label { color: var(--amber); }
+
+.book-input,
+.book-select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-2);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text);
+  box-sizing: border-box;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.book-input:focus,
+.book-select:focus {
+  outline: none;
+  border-color: var(--amber);
+  box-shadow: 0 0 0 3px rgba(201,125,46,0.11);
+}
+.book-input::placeholder { color: rgba(74,92,78,0.38); }
+
+.book-select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%234A5C4E' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 38px;
+}
+
+/* ===== QR PAYMENT TICKET ===== */
+.book-ticket {
+  border: 1.5px dashed rgba(27,42,32,0.18);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.book-ticket-head {
+  background: var(--surface);
+  padding: 20px 24px 18px;
+  border-bottom: 1.5px dashed rgba(27,42,32,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.book-ticket-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.2;
+}
+.book-ticket-title small {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  font-weight: 400;
+  font-style: normal;
+  margin-top: 4px;
+}
+.book-ticket-amount {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--amber);
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.book-ticket-body {
+  background: var(--surface-2);
+  padding: 26px 24px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.book-qr-img {
+  width: 158px;
+  height: 158px;
+  object-fit: contain;
+  border-radius: 10px;
+  display: block;
+  background: #fff;
+  border: 1.5px solid var(--border);
+  padding: 7px;
+  margin-bottom: 18px;
+}
+.book-qr-pills {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.book-qr-pill {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 11px;
+  background: var(--surface);
+}
+.book-qr-note {
+  font-family: var(--font-mono);
+  font-size: 0.57rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-dim);
+  text-align: center;
+  line-height: 1.8;
+}
+
+/* ===== SUBMIT AREA ===== */
+.book-submit-area { margin-top: 28px; }
+.book-submit-btn {
+  width: 100%;
+  padding: 18px;
+  font-size: 0.88rem;
+  letter-spacing: 0.13em;
+  margin-bottom: 16px;
+  border-radius: 12px;
+}
+.book-fine-print {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(74,92,78,0.55);
+  text-align: center;
+  line-height: 1.9;
+}
+.book-fine-print span { margin: 0 7px; opacity: 0.5; }
+
+/* ===== SUCCESS STATE ===== */
+.book-success {
+  display: none;
+  background: var(--dark-block);
+  border-radius: 20px;
+  padding: 56px 32px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.book-success::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--amber), #e8a850);
+  border-radius: 20px 20px 0 0;
+}
+.book-success-icon { font-size: 3rem; margin-bottom: 20px; }
+.book-success h2 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--bg);
+  margin: 0 0 0;
+}
+.book-success-rule {
+  width: 36px; height: 1px;
+  background: rgba(201,125,46,0.45);
+  margin: 20px auto;
+}
+.book-success p {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: rgba(250,246,236,0.65);
+  line-height: 1.7;
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 460px) {
+  .book-date-col + .book-date-col {
+    border-left: none;
+    border-top: 1px solid rgba(250,246,236,0.1);
+    padding-left: 0;
+    padding-top: 16px;
+  }
+  .book-nights-badge { margin-top: 6px; }
+  .book-ticket-head { flex-direction: column; align-items: flex-start; gap: 6px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <a href="/" class="brand">
+      <svg class="brand-leaf" viewBox="0 0 100 118" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="overflow:visible">
+        <path class="leaf-outline" d="M 50 107 C 40 107,26 100,18 90 C 10 82,4 76,4 70 C 4 64,16 60,24 58 C 28 56,32 54,32 52 C 28 48,2 44,2 40 C 2 34,16 28,24 26 C 28 24,32 22,32 20 C 28 16,12 10,14 6 C 16 2,30 0,40 4 C 44 5,46 4,50 4 C 54 4,56 5,60 4 C 70 0,84 2,86 6 C 88 10,72 16,68 20 C 68 22,72 24,76 26 C 84 28,98 34,98 40 C 98 44,72 48,68 52 C 68 54,72 56,76 58 C 84 60,96 64,96 70 C 96 76,90 82,82 90 C 74 100,60 107,50 107 Z"/>
+        <line class="leaf-vein" x1="50" y1="5" x2="50" y2="107"/>
+        <path class="leaf-vein" d="M 50 80 Q 28 76 4 70"/>
+        <path class="leaf-vein" d="M 50 80 Q 72 76 96 70"/>
+        <path class="leaf-vein" d="M 50 50 Q 26 46 2 40"/>
+        <path class="leaf-vein" d="M 50 50 Q 74 46 98 40"/>
+        <path class="leaf-vein" d="M 50 26 Q 30 22 14 6"/>
+        <path class="leaf-vein" d="M 50 26 Q 70 22 86 6"/>
+      </svg>
+      <span class="brand-name">Leafix <span class="brand-ghy">GHY</span></span>
+    </a>
+    <a href="/" class="nav-book-btn">← Back to site</a>
+  </div>
+</nav>
+
+<section class="book-page">
+
+  <!-- Leaf watermark behind content -->
+  <svg class="book-leaf-bg" viewBox="0 0 100 118" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M 50 107 C 40 107,26 100,18 90 C 10 82,4 76,4 70 C 4 64,16 60,24 58 C 28 56,32 54,32 52 C 28 48,2 44,2 40 C 2 34,16 28,24 26 C 28 24,32 22,32 20 C 28 16,12 10,14 6 C 16 2,30 0,40 4 C 44 5,46 4,50 4 C 54 4,56 5,60 4 C 70 0,84 2,86 6 C 88 10,72 16,68 20 C 68 22,72 24,76 26 C 84 28,98 34,98 40 C 98 44,72 48,68 52 C 68 54,72 56,76 58 C 84 60,96 64,96 70 C 96 76,90 82,82 90 C 74 100,60 107,50 107 Z"/>
+    <line x1="50" y1="5" x2="50" y2="107"/>
+    <path d="M 50 80 Q 28 76 4 70"/>
+    <path d="M 50 80 Q 72 76 96 70"/>
+    <path d="M 50 50 Q 26 46 2 40"/>
+    <path d="M 50 50 Q 74 46 98 40"/>
+    <path d="M 50 26 Q 30 22 14 6"/>
+    <path d="M 50 26 Q 70 22 86 6"/>
+  </svg>
+
+  <div class="book-wrap">
+
+    <a href="/" class="book-back">← Change dates</a>
+
+    <div class="book-eyebrow">Leafix GHY · Booking</div>
+    <h1 class="book-heading">Request your stay</h1>
+    <p class="book-sub">Fill in your details and pay the ₹1,000 advance to hold the dates.</p>
+
+    <!-- Date confirmation card — shown by JS when dates are in URL -->
+    <div id="book-dates-card" class="book-dates-card" style="display:none">
+      <div class="book-dates-row">
+        <div class="book-date-col">
+          <div class="book-date-label">Check-in</div>
+          <div class="book-date-val" id="book-in-display">—</div>
+        </div>
+        <div class="book-date-col">
+          <div class="book-date-label">Check-out</div>
+          <div class="book-date-val" id="book-out-display">—</div>
+        </div>
+        <span class="book-nights-badge" id="book-nights-badge"></span>
+      </div>
+    </div>
+
+    <!-- Shown when no dates in URL -->
+    <p id="book-no-dates" class="book-no-dates" style="display:none">
+      No dates selected. <a href="/">Pick dates on the homepage →</a>
+    </p>
+
+    <!-- Booking form -->
+    <form id="book-form">
+      <input type="hidden" name="checkin"  id="f-checkin">
+      <input type="hidden" name="checkout" id="f-checkout">
+
+      <!-- 01 · Guest details -->
+      <div class="book-divider">
+        <span class="book-divider-num">01</span>
+        <div class="book-divider-line"></div>
+        <span class="book-divider-label">Guest details</span>
+      </div>
+
+      <div class="book-fields">
+        <div class="book-field">
+          <label class="book-field-label" for="f-guests">Number of guests</label>
+          <select name="guests" id="f-guests" class="book-select" required>
+            <option value="">Select guests</option>
+            <option value="1">1 guest</option>
+            <option value="2">2 guests</option>
+            <option value="3-4 (kitty party)">3–4 guests (kitty party)</option>
+          </select>
+        </div>
+        <div class="book-field">
+          <label class="book-field-label" for="f-name">Full name (as on Aadhaar / PAN)</label>
+          <input type="text" name="guest_name" id="f-name" class="book-input" required placeholder="Rahul Sharma">
+        </div>
+        <div class="book-field">
+          <label class="book-field-label" for="f-phone">Phone number</label>
+          <input type="tel" name="phone" id="f-phone" class="book-input" required placeholder="+91 98000 00000">
+        </div>
+        <div class="book-field">
+          <label class="book-field-label" for="f-email">Email address</label>
+          <input type="email" name="email" id="f-email" class="book-input" required placeholder="you@example.com">
+        </div>
+      </div>
+
+      <!-- 02 · Payment -->
+      <div class="book-divider">
+        <span class="book-divider-num">02</span>
+        <div class="book-divider-line"></div>
+        <span class="book-divider-label">Secure your dates</span>
+      </div>
+
+      <!-- QR payment ticket -->
+      <div class="book-ticket">
+        <div class="book-ticket-head">
+          <div class="book-ticket-title">
+            Leafix GHY · Advance
+            <small>Scan &amp; pay to hold your slot</small>
+          </div>
+          <div class="book-ticket-amount">₹1,000</div>
+        </div>
+        <div class="book-ticket-body">
+          <img src="/assets/payment-qr.png" alt="UPI Payment QR" class="book-qr-img" onerror="this.style.display='none'">
+          <div class="book-qr-pills">
+            <span class="book-qr-pill">GPay</span>
+            <span class="book-qr-pill">PhonePe</span>
+            <span class="book-qr-pill">Paytm</span>
+            <span class="book-qr-pill">Any UPI</span>
+          </div>
+          <p class="book-qr-note">
+            Scan → pay → screenshot the payment<br>
+            Your request + screenshot = confirmed booking
+          </p>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="book-submit-area">
+        <button type="submit" class="btn btn-primary book-submit-btn">Send booking request →</button>
+        <p class="book-fine-print">
+          Verified guests only <span>·</span> Self check-in <span>·</span> We confirm within a few hours
+        </p>
+      </div>
+
+    </form>
+
+    <!-- Success state -->
+    <div id="book-success" class="book-success">
+      <div class="book-success-icon">🌿</div>
+      <h2>Request sent!</h2>
+      <div class="book-success-rule"></div>
+      <p>We'll confirm your dates within a few hours. Check your email and spam folder for our reply — if you don't hear back in 4 hours, WhatsApp us.</p>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function(){
+  var ENDPOINT = 'https://formspree.io/f/xdekkpka';
+  var MONTHS   = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  function parseDate(s) {
+    if(!s) return null;
+    var parts = s.split('-');
+    if(parts.length !== 3) return null;
+    var d = new Date(+parts[0], +parts[1]-1, +parts[2]);
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  function fmtDate(d) {
+    return MONTHS[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  }
+
+  var params   = new URLSearchParams(window.location.search);
+  var checkIn  = parseDate(params.get('in'));
+  var checkOut = parseDate(params.get('out'));
+
+  var datesCard   = document.getElementById('book-dates-card');
+  var noDatesMsg  = document.getElementById('book-no-dates');
+  var inDisplay   = document.getElementById('book-in-display');
+  var outDisplay  = document.getElementById('book-out-display');
+  var nightsBadge = document.getElementById('book-nights-badge');
+  var fCheckin    = document.getElementById('f-checkin');
+  var fCheckout   = document.getElementById('f-checkout');
+
+  if(checkIn && checkOut && checkOut > checkIn) {
+    var nights = Math.round((checkOut - checkIn) / (1000*60*60*24));
+    inDisplay.textContent   = fmtDate(checkIn);
+    outDisplay.textContent  = fmtDate(checkOut);
+    nightsBadge.textContent = nights + (nights === 1 ? ' night' : ' nights');
+    fCheckin.value  = params.get('in');
+    fCheckout.value = params.get('out');
+    datesCard.style.display = 'block';
+  } else {
+    noDatesMsg.style.display = 'block';
+  }
+
+  var form    = document.getElementById('book-form');
+  var success = document.getElementById('book-success');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var btn = form.querySelector('button[type=submit]');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+
+    var data = new FormData(form);
+    fetch(ENDPOINT, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } })
+      .then(function(r){
+        if(r.ok) {
+          form.style.display    = 'none';
+          success.style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          btn.textContent = 'Send booking request →';
+          btn.disabled = false;
+          alert('Something went wrong — please try again or WhatsApp us.');
+        }
+      })
+      .catch(function(){
+        btn.textContent = 'Send booking request →';
+        btn.disabled = false;
+        alert('Network error — please check your connection and try again.');
+      });
+  });
+})();
+</script>
+
+</body>
+</html>
