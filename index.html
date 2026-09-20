@@ -436,10 +436,9 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
 
-    // Click a calendar date
-    calsEl.addEventListener('click', function(e){
-      e.stopPropagation(); // prevent outside-click handler from closing before state updates
-      var cell = e.target.closest('.cal-avail');
+    // Pick a calendar date — shared by click (desktop) and touchend (mobile)
+    function handleCalTap(target) {
+      var cell = target && target.closest ? target.closest('.cal-avail') : null;
       if(!cell) return;
       var d = new Date(cell.dataset.date+'T00:00:00');
       if(step==='in') {
@@ -449,6 +448,17 @@ document.addEventListener('DOMContentLoaded', function () {
         else { checkOut = d; step = 'done'; }
       }
       updatePills(); renderCals();
+    }
+    calsEl.addEventListener('click', function(e){
+      e.stopPropagation();
+      handleCalTap(e.target);
+    });
+    // touchend fires immediately on mobile (no 300ms delay); preventDefault stops
+    // the delayed synthetic click from also firing and double-processing the tap.
+    calsEl.addEventListener('touchend', function(e){
+      e.stopPropagation();
+      e.preventDefault();
+      handleCalTap(e.target);
     });
 
     // Hover to preview range
