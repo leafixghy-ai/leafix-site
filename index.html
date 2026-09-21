@@ -331,35 +331,17 @@ document.addEventListener('DOMContentLoaded', function () {
         '<div class="avail-cals" id="avail-cals-'+idSuffix+'"></div>',
         '<div class="avail-nights" id="avail-nights-'+idSuffix+'"></div>',
       '</div>',
-      '<form id="avail-form-'+idSuffix+'" class="avail-bottom-form" style="display:none">',
-        '<input type="hidden" name="checkin" id="f-in-'+idSuffix+'">',
-        '<input type="hidden" name="checkout" id="f-out-'+idSuffix+'">',
-        '<div class="avail-bottom">',
-          '<select name="guests" class="avail-select" required>',
-            '<option value="">Guests</option>',
-            '<option value="1">1 guest</option>',
-            '<option value="2">2 guests</option>',
-            '<option value="3-4 (kitty party)">3–4 guests (kitty party)</option>',
-          '</select>',
-          '<input type="tel" name="phone" class="avail-email" required placeholder="Phone number">',
-          '<input type="email" name="email" class="avail-email" required placeholder="your@email.com">',
-          '<input type="text" name="guest_name" class="avail-email" required placeholder="Full name (Aadhaar / PAN)">',
-        '</div>',
-        '<div class="avail-qr">',
-          '<p class="avail-qr-label">Pay <strong>&#8377;1,000 advance</strong> to hold your dates</p>',
-          '<img src="/assets/payment-qr.png" alt="UPI Payment QR" class="avail-qr-img" onerror="this.style.display=\'none\'">',
-          /* Replace the UPI ID below with your own */
-          '<p class="avail-qr-sub">Scan with any UPI app &nbsp;&middot;&nbsp; Screenshot + request = confirmed booking</p>',
-        '</div>',
-        '<button type="submit" class="btn btn-primary avail-btn">Send booking request</button>',
-        '<p class="avail-note">We\'ll confirm within a few hours. <a id="avail-reset-'+idSuffix+'">Clear dates</a></p>',
-      '</form>',
+      '<div id="avail-cta-'+idSuffix+'" class="avail-cta" style="display:none">',
+        '<a id="avail-book-link-'+idSuffix+'" href="/book.html" class="btn btn-primary avail-btn">Book these dates →</a>',
+        '<p class="avail-note"><a id="avail-reset-'+idSuffix+'">Clear dates</a></p>',
+      '</div>',
     ].join('');
 
     var calWrap   = document.getElementById('cal-wrap-'+idSuffix);
     var calsEl    = document.getElementById('avail-cals-'+idSuffix);
     var nightsEl  = document.getElementById('avail-nights-'+idSuffix);
-    var formEl    = document.getElementById('avail-form-'+idSuffix);
+    var ctaEl     = document.getElementById('avail-cta-'+idSuffix);
+    var bookLink  = document.getElementById('avail-book-link-'+idSuffix);
     var pillIn    = document.getElementById('pill-in-'+idSuffix);
     var pillOut   = document.getElementById('pill-out-'+idSuffix);
     var pillInVal = document.getElementById('pill-in-val-'+idSuffix);
@@ -368,6 +350,16 @@ document.addEventListener('DOMContentLoaded', function () {
     function openCal()  { calWrap.classList.add('open');    isOpen = true;  }
     function closeCal() { calWrap.classList.remove('open'); isOpen = false; }
 
+    function pickDate(d) {
+      if(step==='in') {
+        checkIn = d; checkOut = null; step = 'out';
+      } else {
+        if(d <= checkIn) { checkIn = d; checkOut = null; step = 'out'; }
+        else { checkOut = d; step = 'done'; }
+      }
+      updatePills(); renderCals();
+    }
+
     function renderCals() {
       calsEl.innerHTML = '';
       for (var m=0; m<2; m++) {
@@ -375,6 +367,19 @@ document.addEventListener('DOMContentLoaded', function () {
         if (mo > 11) { mo -= 12; yr += 1; }
         calsEl.appendChild(buildMonth(yr, mo));
       }
+      // Direct per-cell handlers — reliable on iOS and Android (no event delegation)
+      calsEl.querySelectorAll('.cal-avail').forEach(function(cell) {
+        var d = new Date(cell.dataset.date + 'T00:00:00');
+        cell.addEventListener('touchend', function(e) {
+          e.stopPropagation();
+          e.preventDefault(); // stops the delayed synthetic click from also firing
+          pickDate(d);
+        });
+        cell.addEventListener('click', function(e) {
+          e.stopPropagation();
+          pickDate(d);
+        });
+      });
     }
 
     function buildMonth(yr, mo) {
@@ -425,41 +430,15 @@ document.addEventListener('DOMContentLoaded', function () {
         var nights = Math.round((checkOut - checkIn) / (1000*60*60*24));
         nightsEl.textContent   = nights + (nights===1 ? ' night' : ' nights');
         nightsEl.style.display = 'block';
-        document.getElementById('f-in-'+idSuffix).value  = isoDate(checkIn);
-        document.getElementById('f-out-'+idSuffix).value = isoDate(checkOut);
-        formEl.style.display = 'block';
-        // Auto-close calendar once both dates are picked
+        bookLink.href = '/book.html?in=' + isoDate(checkIn) + '&out=' + isoDate(checkOut);
+        ctaEl.style.display = 'block';
         setTimeout(closeCal, 420);
       } else {
         nightsEl.style.display = 'none';
-        formEl.style.display   = 'none';
+        ctaEl.style.display    = 'none';
       }
     }
 
-    // Pick a calendar date — shared by click (desktop) and touchend (mobile)
-    function handleCalTap(target) {
-      var cell = target && target.closest ? target.closest('.cal-avail') : null;
-      if(!cell) return;
-      var d = new Date(cell.dataset.date+'T00:00:00');
-      if(step==='in') {
-        checkIn = d; checkOut = null; step = 'out';
-      } else {
-        if(d <= checkIn) { checkIn = d; checkOut = null; step = 'out'; }
-        else { checkOut = d; step = 'done'; }
-      }
-      updatePills(); renderCals();
-    }
-    calsEl.addEventListener('click', function(e){
-      e.stopPropagation();
-      handleCalTap(e.target);
-    });
-    // touchend fires immediately on mobile (no 300ms delay); preventDefault stops
-    // the delayed synthetic click from also firing and double-processing the tap.
-    calsEl.addEventListener('touchend', function(e){
-      e.stopPropagation();
-      e.preventDefault();
-      handleCalTap(e.target);
-    });
 
     // Hover to preview range
     calsEl.addEventListener('mouseover', function(e){
@@ -499,22 +478,6 @@ document.addEventListener('DOMContentLoaded', function () {
       e.preventDefault();
       checkIn=null; checkOut=null; step='in';
       updatePills(); renderCals(); openCal();
-    });
-
-    // Form submit → Formspree
-    formEl.setAttribute('action', ENDPOINT);
-    formEl.setAttribute('method', 'POST');
-    formEl.addEventListener('submit', function(e){
-      e.preventDefault();
-      var data = new FormData(formEl);
-      fetch(ENDPOINT, { method:'POST', body:data, headers:{'Accept':'application/json'} })
-        .then(function(r){
-          if(r.ok){
-            formEl.innerHTML = '<p style="font-family:var(--font-mono);font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber);padding:16px 0;">✓ Request sent! We\'ll confirm within a few hours.</p>';
-          } else {
-            alert('Something went wrong — please try again.');
-          }
-        }).catch(function(){ alert('Network error — please try again.'); });
     });
 
     renderCals();
