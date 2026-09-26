@@ -422,16 +422,48 @@
   <div class="wrap">
     <a href="/" class="brand">
       <svg class="brand-leaf" viewBox="0 0 100 118" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="overflow:visible">
-        <path class="leaf-outline" d="M 50 107 C 40 107,26 100,18 90 C 10 82,4 76,4 70 C 4 64,16 60,24 58 C 28 56,32 54,32 52 C 28 48,2 44,2 40 C 2 34,16 28,24 26 C 28 24,32 22,32 20 C 28 16,12 10,14 6 C 16 2,30 0,40 4 C 44 5,46 4,50 4 C 54 4,56 5,60 4 C 70 0,84 2,86 6 C 88 10,72 16,68 20 C 68 22,72 24,76 26 C 84 28,98 34,98 40 C 98 44,72 48,68 52 C 68 54,72 56,76 58 C 84 60,96 64,96 70 C 96 76,90 82,82 90 C 74 100,60 107,50 107 Z"/>
+        <path class="leaf-outline" d="
+          M 50 107
+          C 40 107,26 100,18 90
+          C 10 82,4 76,4 70
+          C 4 64,16 60,24 58
+          C 28 56,32 54,32 52
+          C 28 48,2 44,2 40
+          C 2 34,16 28,24 26
+          C 28 24,32 22,32 20
+          C 28 16,12 10,14 6
+          C 16 2,30 0,40 4
+          C 44 5,46 4,50 4
+          C 54 4,56 5,60 4
+          C 70 0,84 2,86 6
+          C 88 10,72 16,68 20
+          C 68 22,72 24,76 26
+          C 84 28,98 34,98 40
+          C 98 44,72 48,68 52
+          C 68 54,72 56,76 58
+          C 84 60,96 64,96 70
+          C 96 76,90 82,82 90
+          C 74 100,60 107,50 107 Z
+        "/>
         <line class="leaf-vein" x1="50" y1="5" x2="50" y2="107"/>
         <path class="leaf-vein" d="M 50 80 Q 28 76 4 70"/>
         <path class="leaf-vein" d="M 50 80 Q 72 76 96 70"/>
         <path class="leaf-vein" d="M 50 50 Q 26 46 2 40"/>
         <path class="leaf-vein" d="M 50 50 Q 74 46 98 40"/>
-        <path class="leaf-vein" d="M 50 26 Q 30 22 14 6"/>
-        <path class="leaf-vein" d="M 50 26 Q 70 22 86 6"/>
+        <path class="leaf-vein" d="M 50 22 Q 32 14 14 6"/>
+        <path class="leaf-vein" d="M 50 22 Q 68 14 86 6"/>
+        <ellipse class="leaf-eye" cx="39" cy="48" rx="7" ry="9"/>
+        <ellipse class="leaf-eye" cx="61" cy="48" rx="7" ry="9"/>
+        <circle class="leaf-pupil" cx="40" cy="50" r="3.5"/>
+        <circle class="leaf-pupil" cx="60" cy="50" r="3.5"/>
+        <circle class="leaf-highlight" cx="37" cy="46" r="1.8"/>
+        <circle class="leaf-highlight" cx="57" cy="46" r="1.8"/>
+        <path class="leaf-eyebrow" d="M 30 40 Q 38 35 46 38"/>
+        <path class="leaf-eyebrow" d="M 70 40 Q 62 35 54 38"/>
+        <path class="leaf-smile" d="M 42 59 Q 50 67 58 59"/>
+        <line class="leaf-stem" x1="50" y1="107" x2="50" y2="116"/>
       </svg>
-      <span class="brand-name">Leafix <span class="brand-ghy">GHY</span></span>
+      Leafix GHY
     </a>
     <a href="/" class="nav-book-btn">← Back to site</a>
   </div>
@@ -498,13 +530,16 @@
             <option value="">Select guests</option>
             <option value="1">1 guest</option>
             <option value="2">2 guests</option>
-            <option value="3-4 (kitty party)">3–4 guests (kitty party)</option>
+            <option value="3">3 guests (kitty party)</option>
+            <option value="4">4 guests (kitty party)</option>
           </select>
         </div>
         <div class="book-field">
-          <label class="book-field-label" for="f-name">Full name (as on Aadhaar / PAN)</label>
+          <label class="book-field-label" for="f-name">Primary guest – full name (as on Aadhaar / PAN)</label>
           <input type="text" name="guest_name" id="f-name" class="book-input" required placeholder="Rahul Sharma">
         </div>
+        <!-- Additional guest names injected here by JS when count > 1 -->
+        <div id="extra-guest-fields"></div>
         <div class="book-field">
           <label class="book-field-label" for="f-phone">Phone number</label>
           <input type="tel" name="phone" id="f-phone" class="book-input" required placeholder="+91 98000 00000">
@@ -550,7 +585,8 @@
       <div class="book-submit-area">
         <button type="submit" class="btn btn-primary book-submit-btn">Send booking request →</button>
         <p class="book-fine-print">
-          Verified guests only <span>·</span> Self check-in <span>·</span> We confirm within a few hours
+          Verified guests only <span>·</span> Self check-in <span>·</span> We confirm within a few hours<br>
+          WhatsApp Aadhaar photo for every guest to complete verification
         </p>
       </div>
 
@@ -561,7 +597,7 @@
       <div class="book-success-icon">🌿</div>
       <h2>Request sent!</h2>
       <div class="book-success-rule"></div>
-      <p>We'll confirm your dates within a few hours. Check your email and spam folder for our reply — if you don't hear back in 4 hours, WhatsApp us.</p>
+      <p>We'll confirm your dates within a few hours. Next step — WhatsApp us Aadhaar photos for all guests at the number on this page. Check your email for our reply; if you don't hear back in 4 hours, WhatsApp us directly.</p>
     </div>
 
   </div>
@@ -608,8 +644,24 @@
     noDatesMsg.style.display = 'block';
   }
 
-  var form    = document.getElementById('book-form');
-  var success = document.getElementById('book-success');
+  var form        = document.getElementById('book-form');
+  var success     = document.getElementById('book-success');
+  var guestSel    = document.getElementById('f-guests');
+  var extraFields = document.getElementById('extra-guest-fields');
+
+  // Show a name field for each guest beyond the first
+  guestSel.addEventListener('change', function() {
+    var count = parseInt(this.value) || 0;
+    extraFields.innerHTML = '';
+    for (var i = 2; i <= count; i++) {
+      var div = document.createElement('div');
+      div.className = 'book-field';
+      div.innerHTML =
+        '<label class="book-field-label" for="f-name-' + i + '">Guest ' + i + ' – full name</label>' +
+        '<input type="text" name="guest_' + i + '_name" id="f-name-' + i + '" class="book-input" required placeholder="Full name as on Aadhaar / PAN">';
+      extraFields.appendChild(div);
+    }
+  });
 
   form.addEventListener('submit', function(e){
     e.preventDefault();
