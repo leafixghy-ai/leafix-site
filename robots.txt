@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /book.html
 
 Sitemap: https://leafix1994.in/sitemap.xml
+
